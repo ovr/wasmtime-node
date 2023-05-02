@@ -20,5 +20,8 @@ test("simple wasm script", (t) => {
 
   console.log(answer_fn);
 
+  const res = answer_fn.call0(store);
+  console.log(res);
+
   t.assert(true);
 });

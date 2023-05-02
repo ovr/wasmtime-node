@@ -252,11 +252,12 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { Engine, Module, Store, Linker, WasmFunction, Instance } = nativeBinding
+const { Engine, Module, Store, Linker, WasmFunctionTy, WasmFunction, Instance } = nativeBinding
 
 module.exports.Engine = Engine
 module.exports.Module = Module
 module.exports.Store = Store
 module.exports.Linker = Linker
+module.exports.WasmFunctionTy = WasmFunctionTy
 module.exports.WasmFunction = WasmFunction
 module.exports.Instance = Instance

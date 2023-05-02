@@ -3,10 +3,7 @@
 #[macro_use]
 extern crate napi_derive;
 
-use napi::bindgen_prelude::*;
-use std::cell::RefCell;
 use wasmtime::*;
-mod test;
 
 #[napi(js_name = "Engine")]
 pub struct JSEngine {
@@ -25,7 +22,7 @@ impl JSEngine {
 
 #[napi(js_name = "Module")]
 pub struct JSModule {
-  inner: Module
+  inner: Module,
 }
 
 #[napi]
@@ -40,7 +37,7 @@ impl JSModule {
 
 #[napi(js_name = "Store")]
 pub struct JSStore {
-  inner: Store<()>
+  inner: Store<()>,
 }
 
 #[napi]
@@ -55,7 +52,7 @@ impl JSStore {
 
 #[napi(js_name = "Linker")]
 pub struct JSLinker {
-  inner: Linker<Engine>
+  inner: Linker<Engine>,
 }
 
 #[napi]
@@ -67,19 +64,40 @@ impl JSLinker {
     }
   }
 
-  pub fn instantiate(&self, store: &JSStore, module: &JSModule) {
-    // self.inner.instantiate(store.inner, &module.inner);
+  pub fn instantiate(&self, store: &mut JSStore, module: &JSModule) {
+    // self.inner.instantiate(&mut store.inner, &module.inner).unwrap();
   }
+}
+
+#[napi(js_name = "WasmFunctionTy")]
+pub struct WasmFunctionTy {
+  inner: FuncType,
 }
 
 #[napi(js_name = "WasmFunction")]
 pub struct WasmFunction {
-  inner: Func
+  inner: Func,
+}
+
+#[napi]
+impl WasmFunction {
+  #[napi]
+  pub fn ty(&self, store: &mut JSStore) -> WasmFunctionTy {
+    WasmFunctionTy {
+      inner: self.inner.ty(&mut store.inner),
+    }
+  }
+
+  #[napi]
+  pub fn call0(&self, store: &mut JSStore) {
+    let mut results = [];
+    let result = self.inner.call(&mut store.inner, &[], &mut results);
+  }
 }
 
 #[napi(js_name = "Instance")]
 pub struct JSInstance {
-  inner: Instance
+  inner: Instance,
 }
 
 #[napi]
@@ -92,11 +110,11 @@ impl JSInstance {
   }
 
   #[napi]
-  pub fn get_func(&self, store: &mut JSStore, fn_name: String) -> WasmFunction {
-    let fun = self.inner.get_func(&mut store.inner, &fn_name).expect("function not defined");
-
-    WasmFunction {
-      inner: fun
+  pub fn get_func(&self, store: &mut JSStore, fn_name: String) -> Option<WasmFunction> {
+    if let Some(fun) = self.inner.get_func(&mut store.inner, &fn_name) {
+      Some(WasmFunction { inner: fun })
+    } else {
+      None
     }
   }
 }

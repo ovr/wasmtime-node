@@ -19,9 +19,13 @@ export type JSLinker = Linker
 export class Linker {
   constructor(engine: Engine)
 }
-export class WasmFunction { }
+export class WasmFunctionTy { }
+export class WasmFunction {
+  ty(store: Store): WasmFunctionTy
+  call0(store: Store): void
+}
 export type JSInstance = Instance
 export class Instance {
   constructor(store: Store, module: Module)
-  getFunc(store: Store, fnName: string): WasmFunction
+  getFunc(store: Store, fnName: string): WasmFunction | null
 }
