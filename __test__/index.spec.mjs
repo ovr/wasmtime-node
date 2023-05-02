@@ -1,4 +1,5 @@
 import test from "ava";
+import path from 'path';
 
 import { Engine, Module, Linker, Store, Instance } from "../index.js";
 
@@ -6,7 +7,7 @@ test("simple wasm script", (t) => {
   const engine = new Engine();
   console.log(engine);
 
-  const module = Module.fromFile(engine, '/Users/ovr/projects/cube/wasmtime-node/wasmtime-node/__test__/hello.wat');
+  const module = Module.fromFile(engine, path.join(process.cwd(), '__test__', 'hello.wat'));
   console.log(module);
 
   // const linker = new Linker(engine);

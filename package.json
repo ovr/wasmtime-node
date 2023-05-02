@@ -14,13 +14,14 @@
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^2.15.2",
+    "@types/node": "^14",
     "ava": "^5.1.1"
   },
   "ava": {
     "timeout": "3m"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 14"
   },
   "scripts": {
     "artifacts": "napi artifacts",

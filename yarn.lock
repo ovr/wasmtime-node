@@ -75,6 +75,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^14":
+  version: 14.18.43
+  resolution: "@types/node@npm:14.18.43"
+  checksum: 3ef43eda265c346597bc5c8329605255550f7a92300a76e9e3c48e07fd685b4a48d47465997bf6f1a68b235c7339e6e583d73515769efcad70e4f8f4c7f47fd4
+  languageName: node
+  linkType: hard
+
 "abbrev@npm:^1.0.0":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -1934,6 +1941,7 @@ __metadata:
   resolution: "wasmtime@workspace:."
   dependencies:
     "@napi-rs/cli": ^2.15.2
+    "@types/node": ^14
     ava: ^5.1.1
   languageName: unknown
   linkType: soft
