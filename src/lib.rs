@@ -7,6 +7,40 @@ use napi::bindgen_prelude::*;
 use napi::JsNumber;
 use wasmtime::*;
 
+#[napi(js_name = "Config")]
+pub struct JSConfig {
+  inner: Config,
+}
+
+#[napi]
+impl JSConfig {
+  #[napi(constructor)]
+  pub fn new() -> Self {
+    Self {
+      inner: Config::new(),
+    }
+  }
+
+  /// Configures whether the WebAssembly threads proposal will be enabled for compilation.
+  #[napi]
+  pub fn wasm_threads(&mut self, enable: bool) {
+    self.inner.wasm_threads(enable);
+  }
+
+  /// Whether or not to enable support for asynchronous functions in Wasmtime.
+  #[napi]
+  pub fn async_support(&mut self, enable: bool) {
+    self.inner.async_support(enable);
+  }
+
+  /// Configures whether the WebAssembly Relaxed SIMD proposal will be enabled for compilation.
+  /// This is false by default.
+  #[napi]
+  pub fn wasm_relaxed_simd(&mut self, enable: bool) {
+    self.inner.wasm_relaxed_simd(enable);
+  }
+}
+
 #[napi(js_name = "Engine")]
 pub struct JSEngine {
   inner: Engine,
@@ -15,8 +49,16 @@ pub struct JSEngine {
 #[napi]
 impl JSEngine {
   #[napi(constructor)]
-  pub fn new() -> Self {
-    JSEngine {
+  pub fn new(config: &JSConfig) -> napi::Result<Self> {
+    Ok(Self {
+      inner: Engine::new(&config.inner)
+        .map_err(|err| napi::Error::from_reason(format!("Unable to instance engine: {}", err)))?,
+    })
+  }
+
+  #[napi(factory)]
+  pub fn default() -> Self {
+    Self {
       inner: Engine::default(),
     }
   }

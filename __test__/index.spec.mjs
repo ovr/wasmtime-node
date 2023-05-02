@@ -1,11 +1,11 @@
 import test from "ava";
 import path from 'path';
 
-import { Engine, Module, Store, Instance } from "../index.js";
+import { Config, Engine, Module, Store, Instance } from "../index.js";
 
 test("simple wasm script", (t) => {
-  const engine = new Engine();
-  console.log(engine);
+  const config = new Config();
+  const engine = new Engine(config);
 
   const module = Module.fromFile(engine, path.join(process.cwd(), '__test__', 'hello.wat'));
   console.log(module);
