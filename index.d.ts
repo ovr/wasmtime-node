@@ -22,7 +22,7 @@ export class Linker {
 export class WasmFunctionTy { }
 export class WasmFunction {
   ty(store: Store): WasmFunctionTy
-  call0(store: Store): void
+  call(store: Store, args: unknown[]): number
 }
 export type JSInstance = Instance
 export class Instance {
