@@ -34,9 +34,9 @@
   },
   "packageManager": "yarn@3.5.1",
   "optionalDependencies": {
-    "wasmtime-win32-x64-msvc": "0.0.1",
     "wasmtime-darwin-x64": "0.0.1",
+    "wasmtime-linux-arm64-gnu": "0.0.1",
     "wasmtime-linux-x64-gnu": "0.0.1",
-    "wasmtime-linux-arm64-gnu": "0.0.1"
+    "wasmtime-win32-x64-msvc": "0.0.1"
   }
 }
